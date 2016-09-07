@@ -1,0 +1,260 @@
+
+Public Function numberToWords(number As Long)
+
+Select Case number
+Case 11
+    numberToWords = "Eleven"
+Case 12
+    numberToWords = "Twelve"
+Case 13
+    numberToWords = "Thirteen"
+Case 14
+    numberToWords = "Fourteen"
+Case 15
+    numberToWords = "Fifteen"
+Case 16
+    numberToWords = "Sixteen"
+Case 17
+    numberToWords = "Seventeen"
+Case 18
+    numberToWords = "Eighteen"
+Case 19
+    numberToWords = "Nineteen"
+Case Else
+    numberToWords = getNumberToWords(number)
+End Select
+
+
+End Function
+Function getNumberToWords(number As Long)
+
+Dim str As String
+Dim unitWord As String
+Dim unitDigit As Long
+Dim unitOrTens As String
+Dim tensWord As String
+Dim tensDigit As Long
+Dim hundredDigit As Long
+Dim thousandDigit As Long
+Dim thousandWord As String
+Dim tenThousandDigit As Long
+Dim tenThousandWord As String
+Dim lakhDigit As Long
+Dim lakhWord As String
+
+Dim noOfDigs As Long
+noOfDigs = numberOfDigits(number)
+
+For i = 1 To noOfDigs
+Select Case i
+Case 1
+    unitDigit = getXDigit(number, 1)
+    unitWord = unitDigitInWord(unitDigit)
+Case 2
+    tensDigit = getXDigit(number, 2)
+    tensWord = tensDigitInWord(tensDigit, unitDigit)
+    If tensDigit = 1 Then
+    unitWord = ""
+    End If
+Case 3
+    hundredDigit = getXDigit(number, 3)
+    hundredWord = hundredDigitInWord(hundredDigit)
+
+Case 4
+    thousandDigit = getXDigit(number, 4)
+    thousandWord = thousandDigitInWord(thousandDigit)
+    If (hundredDigit = 0) Then
+    hundredWord = ""
+    End If
+Case 5
+    tenThousandDigit = getXDigit(number, 5)
+    tenThousandWord = tenThousandDigitInWord(tenThousandDigit, thousandDigit)
+    If thousandDigit = 0 Or thousandDigit = 1 Then
+        thousandWord = ""
+    End If
+Case 6
+    lakhDigit = getXDigit(number, 6)
+    lakhWord = lakhDigitInWord(lakhDigit)
+    If (tenThousandDigit = 0) Then
+    tenThousandWord = ""
+    End If
+
+    'unitOrTens = "Sixteen"
+'Case 7
+    'unitOrTens = "Seventeen"
+'Case 8
+    'unitOrTens = "Eighteen"
+'Case 9
+    'unitOrTens = "Nineteen"
+Case Else
+    unitOrTens = "Under Development"
+End Select
+
+getNumberToWords = lakhWord + tenThousandWord + thousandWord + hundredWord + tensWord + " " + unitWord
+
+'If i = 3 Then
+'    getHundredDigit (number)
+'End If
+
+'If i = 4 Then
+'    getThousandDigit (number)
+'End If
+
+'If i = 5 Then
+'    getTenThousandDigit (number)
+'End If
+
+'If i = 6 Then
+'    getLakhDigit (number)
+'End If
+
+'If i = 7 Then
+'    getTenLakhDigit (number)
+'End If
+
+'If i = 8 Then
+'    getCroreDigit (number)
+'End If
+
+Next i
+
+'unit and tens
+
+'numberToWords = str
+
+
+End Function
+
+Function numberOfDigits(number As Long) As Long
+    Dim i As Long
+    Dim number1 As Long
+    number1 = number
+    i = 0
+    Do
+        number1 = number1 \ 10
+        i = i + 1
+    Loop While number1 > 0
+    numberOfDigits = i
+End Function
+Function getXDigit(number As Long, x As Long) As String
+    Dim reduceNumber As Long
+    reduceNumber = (number \ (10 ^ (x - 1)))
+    getXDigit = reduceNumber Mod 10
+End Function
+Public Function unitDigitInWord(number As Long) As String
+'unit digit
+Select Case number
+Case 1
+    unit = "One"
+Case 2
+    unit = "Two"
+Case 3
+    unit = "Three"
+Case 4
+    unit = "Four"
+Case 5
+    unit = "Five"
+Case 6
+    unit = "Six"
+Case 7
+    unit = "Seven"
+Case 8
+    unit = "Eight"
+Case 9
+    unit = "Nine"
+Case Else
+    unit = ""
+End Select
+unitDigitInWord = unit
+End Function
+
+Function tensDigitInWord(number As Long, unitDigit As Long) As String
+
+'Tens digit
+Select Case number
+
+Case 0
+    tensDigitInWord = ""
+Case 1
+    If unitDigit = 0 Then
+        tensDigitInWord = "Ten"
+    Else
+        tensDigitInWord = getOneSeries(unitDigit)
+    End If
+Case 2
+    tensDigitInWord = "Twenty"
+Case 3
+    tensDigitInWord = "Thirty"
+Case 4
+    tensDigitInWord = "Fourty"
+Case 5
+    tensDigitInWord = "Fifty"
+Case 6
+    tensDigitInWord = "Sixty"
+Case 7
+    tensDigitInWord = "Seventy"
+Case 8
+    tensDigitInWord = "Eighty"
+Case 9
+    tensDigitInWord = "Ninety"
+Case Else
+    tens = ""
+End Select
+End Function
+
+Public Function hundredDigitInWord(number As Long) As String
+
+'hundreds digit
+hundredDigitInWord = unitDigitInWord(number) + " hundred "
+
+End Function
+
+
+Function getOneSeries(number As Long)
+
+Select Case number
+Case 0
+    getOneSeries = "Ten"
+Case 1
+    getOneSeries = "Eleven"
+Case 2
+    getOneSeries = "Twelve"
+Case 3
+    getOneSeries = "Thirteen"
+Case 4
+    getOneSeries = "Fourteen"
+Case 5
+    getOneSeries = "Fifteen"
+Case 6
+    getOneSeries = "Sixteen"
+Case 7
+    getOneSeries = "Seventeen"
+Case 8
+    getOneSeries = "Eighteen"
+Case 9
+    getOneSeries = "Nineteen"
+End Select
+
+End Function
+
+Public Function thousandDigitInWord(number As Long) As String
+
+'thousand digit
+thousandDigitInWord = unitDigitInWord(number) + " Thousand "
+
+End Function
+Public Function tenThousandDigitInWord(number As Long, thousandDigit As Long) As String
+
+'ten thousand digit
+tenThousandDigitInWord = tensDigitInWord(number, thousandDigit)
+
+End Function
+
+Public Function lakhDigitInWord(number As Long) As String
+
+'thousand digit
+lakhDigitInWord = unitDigitInWord(number) + " Lakh "
+
+End Function
+
+
